@@ -7,24 +7,29 @@ import java.util.List;
 @RequestMapping("/api/transactions")
 public class TransactionController {
 
-    private final TransactionRepository repository;
+    private final TransactionService service;
 
-    public TransactionController(TransactionRepository repository) {
-        this.repository = repository;
+    public TransactionController(TransactionService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<Transaction> getAll() {
-        return repository.findAll();
+        return service.getAll();
     }
 
     @PostMapping
     public Transaction create(@RequestBody Transaction transaction) {
-        return repository.save(transaction);
+        return service.create(transaction);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.delete(id);
+    }
+
+    @GetMapping("/summary")
+    public Summary summary() {
+        return service.getSummary();
     }
 }
